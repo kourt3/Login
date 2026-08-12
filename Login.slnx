@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Login.Application/Login.Application.vbproj" Id="ee56ae95-e677-40d3-bdd1-dc87500c248a" />
+  <Project Path="Login.Core/Login.Core.vbproj" Id="1f4cfb14-6422-41dd-adbe-d2a5fb16cf56" />
+  <Project Path="Login.Infastructure/Login.Infastructure.vbproj" Id="6cfc44a6-bb4e-499a-aa54-aed18eef26c1" />
+  <Project Path="Login.Test/Login.Test.vbproj" Id="4ecb35bb-d6f9-4cd3-a251-0cb3177efaa0" />
+</Solution>
