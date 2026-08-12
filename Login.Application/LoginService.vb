@@ -15,6 +15,8 @@ Namespace Services
 
 
         Function Login(LoginDTO As DTOs.ILoginDTO) As FoundationLibrary.ValMsg.ValMsg(Of Entity.Entity)
+
+
             Dim Result As New ValMsg(Of Entity.Entity)
             If Repository.Exist(LoginDTO) Then
                 Result.Success = True
@@ -27,6 +29,7 @@ Namespace Services
             Result.Msg = "Δεν Βρέθηκε ο χρήστης!"
             Return Result
         End Function
+
         Public Overrides Function Change(Of DTO)(Ref As Entity.Entity, ChangeDTO As DTO) As IValMsg
             Dim Val As New ValMsg
             If TypeOf ChangeDTO Is Ables.IUserName Then
@@ -42,6 +45,7 @@ Namespace Services
             End If
             Return MyBase.Change(Ref, ChangeDTO)
         End Function
+
         Public Overrides Function Register(Of DTO)(RegisterDTO As DTO) As IValMsg(Of Entity.Entity)
             Dim LinkRegisterDTO As DTOs.IRegisterDTO = RegisterDTO
             Dim Val As New ValMsg(Of Entity.Entity)
