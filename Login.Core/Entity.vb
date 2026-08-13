@@ -8,19 +8,12 @@ Namespace Entity
         Implements Ables.IPassword
         Implements Ables.CreateAt
 
+
         Public Property PrimaryKey As Integer Implements IHasPrimaryKey(Of Integer).PrimaryKey
         Public Property Username As String Implements Ables.IUserName.Username
         Public Property Password As String Implements Ables.IPassword.Password
         Public Property CreateAt As Date Implements Ables.CreateAt.CreateAt
     End Class
-
-    Public Interface IEntity
-        Inherits IHasPrimaryKey(Of Integer)
-        Inherits Ables.IReference
-        Inherits Ables.IUserName
-        Inherits Ables.IPassword
-        Inherits Ables.CreateAt
-    End Interface
 End Namespace
 
 
