@@ -6,7 +6,7 @@ Imports Login.Core
 Imports Login.Infastructure
 
 Namespace Services
-    Public Class LoginServiceUnOfficialEntity
+    Public Class LoginServiceCloneEntity
         Inherits ServiceCE(Of Integer, Entity.Entity, Repository)
 
         Sub New()
@@ -143,7 +143,7 @@ Namespace Services
         End Function
     End Class
 
-    Public Class LoginServiceOfficialService
+    Public Class LoginServiceOfficialEntity
         Inherits FoundationLibrary.Services.ServiceE(Of Integer, Entity.Entity, Repository)
 
         Sub New()
@@ -265,5 +265,24 @@ Namespace Services
             Return Entity
         End Function
     End Class
+    Public Class LoginServiceModel(Of TKey, TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of TKey))
 
+        Inherits FoundationLibrary.Services.Service(Of TKey, TModel, Login.Core.Entity.Entity, FoundationLibrary.Repositories.Repository(Of TKey, Entity.Entity))
+
+        Sub New()
+            MyBase.New(New Repository)
+        End Sub
+
+        Public Overrides Function ToModel(Entity As Entity.Entity) As TModel
+            Throw New NotImplementedException()
+        End Function
+
+        Public Overrides Function ToEntity(Of DTO)(DTOLink As DTO) As Entity.Entity
+            Throw New NotImplementedException()
+        End Function
+
+        Public Overrides Function ToEntity(Of DTO)(DTOLink As DTO, Entity As Entity.Entity) As Entity.Entity
+            Throw New NotImplementedException()
+        End Function
+    End Class
 End Namespace

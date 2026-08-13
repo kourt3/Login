@@ -1,7 +1,7 @@
 ﻿Imports FoundationLibrary.Interfaces.Keys
 
 Namespace Entity
-    Public Class Entity
+    Public Class Entity : Implements IHasPrimaryKey(Of Integer)
         Implements Ables.IReference
         Implements Ables.IUserName
         Implements Ables.IPassword
@@ -12,6 +12,14 @@ Namespace Entity
         Public Property Password As String Implements Ables.IPassword.Password
         Public Property CreateAt As Date Implements Ables.CreateAt.CreateAt
     End Class
+
+    Public Interface IEntity
+        Inherits IHasPrimaryKey(Of Integer)
+        Inherits Ables.IReference
+        Inherits Ables.IUserName
+        Inherits Ables.IPassword
+        Inherits Ables.CreateAt
+    End Interface
 End Namespace
 
 
