@@ -6,10 +6,25 @@ Imports Login.Core
 Imports Login.Infastructure
 
 Namespace Services
-    Public Class LoginServiceModel(Of TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of Int32))
+    Public Class LoginServiceCloneEntity
+        Inherits ServiceCE(Of Integer, Entity.Entity, Repository)
 
         Inherits FoundationLibrary.Services.Service(Of Integer, TModel, Core.Entity.Entity, Repository)
 
+        Public Overrides Function MemberizeClone(Enity As Entity.Entity) As Entity.Entity
+            Dim NewEntiry As New Entity.Entity
+            With NewEntiry
+                .PrimaryKey = Enity.PrimaryKey
+                .Username = Enity.Username
+                .Password = Enity.Password
+                .CreateAt = Enity.CreateAt
+            End With
+            Return NewEntiry
+        End Function
+    End Class
+
+    Public Class LoginServiceOfficialEntity
+        Inherits FoundationLibrary.Services.ServiceE(Of Integer, Entity.Entity, Repository)
 
         Sub New()
             MyBase.New(New Repository)
