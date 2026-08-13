@@ -2,6 +2,7 @@
 
 Namespace Entity
     Public Class Entity
+
         Implements Ables.IReference
         Implements Ables.IUserName
         Implements Ables.IPassword
