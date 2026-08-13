@@ -6,7 +6,7 @@ Imports Login.Core
 Imports Login.Infastructure
 
 Namespace Services
-    Public Class LoginServiceCloneEntity
+    Public Class LoginServiceUnOfficialEntity
         Inherits ServiceCE(Of Integer, Entity.Entity, Repository)
 
         Sub New()
@@ -143,7 +143,7 @@ Namespace Services
         End Function
     End Class
 
-    Public Class LoginServiceOfficialEntity
+    Public Class LoginServiceOfficialService
         Inherits FoundationLibrary.Services.ServiceE(Of Integer, Entity.Entity, Repository)
 
         Sub New()
