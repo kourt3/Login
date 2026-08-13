@@ -4,6 +4,7 @@ Imports Login.Core
 Imports Login.Infastructure
 Namespace Services
     Public Class LoginServiceOfficialEntity
+
         Inherits FoundationLibrary.Services.ServiceE(Of Integer, Entity.Entity, Repository)
 
         Sub New()
