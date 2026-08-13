@@ -266,8 +266,7 @@ Namespace Services
         End Function
     End Class
     Public Class LoginServiceModel(Of TKey, TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of TKey))
-
-        Inherits FoundationLibrary.Services.Service(Of TKey, TModel, Login.Core.Entity.Entity, FoundationLibrary.Repositories.Repository(Of TKey, Entity.Entity))
+        Inherits FoundationLibrary.Services.Service(Of TKey, TModel, Core.Entity.Entity, FoundationLibrary.Repositories.Repository(Of TKey, Entity.Entity))
 
         Sub New()
             MyBase.New(New Repository)

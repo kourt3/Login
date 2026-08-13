@@ -1,7 +1,8 @@
 ﻿Imports FoundationLibrary.Interfaces.Keys
 
 Namespace Entity
-    Public Class Entity : Implements IHasPrimaryKey(Of Integer)
+    Public Class Entity
+        Implements FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of Integer)
         Implements Ables.IReference
         Implements Ables.IUserName
         Implements Ables.IPassword
