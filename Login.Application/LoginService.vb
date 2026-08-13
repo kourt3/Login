@@ -1,6 +1,6 @@
-﻿Imports FoundationLibrary.Services
+﻿Imports FoundationLibrary.Interfaces.ValMsg
 Imports FoundationLibrary.Repositories
-Imports FoundationLibrary.Interfaces.ValMsg
+Imports FoundationLibrary.Services
 Imports FoundationLibrary.ValMsg
 Imports Login.Core
 Imports Login.Infastructure
@@ -265,23 +265,94 @@ Namespace Services
             Return Entity
         End Function
     End Class
-    Public Class LoginServiceModel(Of TKey, TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of TKey))
-        Inherits FoundationLibrary.Services.Service(Of TKey, TModel, Core.Entity.Entity, FoundationLibrary.Repositories.Repository(Of TKey, Entity.Entity))
+    Public Class LoginServiceModel(Of TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of Int32))
+
+        Inherits FoundationLibrary.Services.Service(Of Integer, TModel, Core.Entity.Entity, Repository)
+
 
         Sub New()
             MyBase.New(New Repository)
         End Sub
 
         Public Overrides Function ToModel(Entity As Entity.Entity) As TModel
-            Throw New NotImplementedException()
+            Dim NewEntity As New Entity.Entity
+            With NewEntity
+                .PrimaryKey = Entity.PrimaryKey
+                .Username = Entity.Username
+                .Password = Entity.Password
+                .CreateAt = Entity.CreateAt
+            End With
+            Return DirectCast(CType(NewEntity, Object), TModel)
         End Function
 
         Public Overrides Function ToEntity(Of DTO)(DTOLink As DTO) As Entity.Entity
-            Throw New NotImplementedException()
+            Dim Entity As New Entity.Entity
+
+
+            If GetType(DTO) Is GetType(DTOs.ILoginDTO) Then
+                Dim Obj As DTOs.ILoginDTO = DTOLink
+                With Entity
+                    .Username = Obj.Username
+                    .Password = Obj.Password
+                End With
+            ElseIf GetType(DTO) Is GetType(DTOs.IRegisterDTO) Then
+                Dim Obj As DTOs.IRegisterDTO = DTOLink
+                With Entity
+                    .Username = Obj.Username
+                    .Password = Obj.Username
+                End With
+            ElseIf GetType(DTO) Is GetType(DTOs.IChangeNameDTO) Then
+                Dim Obj As DTOs.IChangeNameDTO = DTOLink
+                With Entity
+                    .Username = Obj.Username
+                End With
+            ElseIf GetType(DTO) Is GetType(DTOs.IChangePasswordDTO) Then
+                Dim Obj As DTOs.IChangePasswordDTO = DTOLink
+                With Entity
+                    .Password = Obj.Password
+                End With
+            ElseIf GetType(DTO) Is GetType(DTOs.IChangeUsernameAndPasswordDTO) Then
+                Dim Obj As DTOs.IChangeUsernameAndPasswordDTO = DTOLink
+                With Entity
+                    .Username = Obj.Username
+                    .Password = Obj.Password
+                End With
+            End If
+            Return Entity
         End Function
 
         Public Overrides Function ToEntity(Of DTO)(DTOLink As DTO, Entity As Entity.Entity) As Entity.Entity
-            Throw New NotImplementedException()
+            If GetType(DTO) Is GetType(DTOs.ILoginDTO) Then
+                Dim Obj As DTOs.ILoginDTO = DTOLink
+                With Entity
+                    .Username = Obj.Username
+                    .Password = Obj.Password
+                End With
+            ElseIf GetType(DTO) Is GetType(DTOs.IRegisterDTO) Then
+                Dim Obj As DTOs.IRegisterDTO = DTOLink
+                With Entity
+                    .Username = Obj.Username
+                    .Password = Obj.Username
+                End With
+            ElseIf GetType(DTO) Is GetType(DTOs.IChangeNameDTO) Then
+                Dim Obj As DTOs.IChangeNameDTO = DTOLink
+                With Entity
+                    .Username = Obj.Username
+                End With
+            ElseIf GetType(DTO) Is GetType(DTOs.IChangePasswordDTO) Then
+                Dim Obj As DTOs.IChangePasswordDTO = DTOLink
+                With Entity
+                    .Password = Obj.Password
+                End With
+            ElseIf GetType(DTO) Is GetType(DTOs.IChangeUsernameAndPasswordDTO) Then
+                Dim Obj As DTOs.IChangeUsernameAndPasswordDTO = DTOLink
+                With Entity
+                    .Username = Obj.Username
+                    .Password = Obj.Password
+                End With
+            End If
+            Return Entity
         End Function
+
     End Class
 End Namespace
