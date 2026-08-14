@@ -1,24 +1,24 @@
 ﻿Imports FoundationLibrary.Interfaces.ValMsg
 Imports FoundationLibrary.ValMsg
+Imports Login.Application.DTOs
 Imports Login.Core
-Imports Login.Infastructure
+
 Namespace Services
-    Public Class LoginServiceOfficialEntity
+    Public Class LoginServiceDiffModel(Of TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of Int32))
+        Inherits FoundationLibrary.Services.ServicesDiffModels(Of Integer, TModel, Login.Core.Entity.Entity, Login.Infastructure.Repository)
 
-        Inherits FoundationLibrary.Services.ServiceOfficialEntity(Of Integer, Entity.Entity, Repository)
-
-        Sub New()
-            MyBase.New(New Repository)
+        Sub New(AddresToMemberizeClone As FoundationLibrary.Services.ServicesDiffModels(Of Integer, TModel, Login.Core.Entity.Entity, Infastructure.Repository).DelMemberizeClone)
+            MyBase.New(New Infastructure.Repository, AddresToMemberizeClone)
         End Sub
 
+        Function Login(LoginDTO As DTOs.ILoginDTO) As FoundationLibrary.ValMsg.ValMsg(Of TModel)
 
-        Function Login(LoginDTO As DTOs.ILoginDTO) As FoundationLibrary.ValMsg.ValMsg(Of Entity.Entity)
 
-            Dim Result As New ValMsg(Of Entity.Entity)
+            Dim Result As New ValMsg(Of TModel)
             If Repository.Exist(LoginDTO) Then
                 Result.Success = True
                 Result.Msg = "Βρέθηκε ο Χρήστης."
-                Result.Model = Repository.Find(LoginDTO)
+                Result.Model = MyBase.MemberizeClone.Invoke(Repository.Find(LoginDTO))
                 Return Result
             End If
 
@@ -43,7 +43,7 @@ Namespace Services
             Return MyBase.Change(Ref, ChangeDTO)
         End Function
 
-        Public Overrides Function Register(Of DTO)(RegisterDTO As DTO) As IValMsg(Of Entity.Entity)
+        Public Overrides Function Register(Of DTO)(RegisterDTO As DTO) As IValMsg(Of TModel)
             Dim LinkRegisterDTO As DTOs.IRegisterDTO = RegisterDTO
             Dim Val As New ValMsg(Of Entity.Entity)
             If Repository.ExistByUsername(LinkRegisterDTO.Username) Then
@@ -57,34 +57,34 @@ Namespace Services
             Return MyBase.Register(RegisterDTO)
         End Function
 
-        Public Overrides Function ToEntity(Of DTO)(DTOLink As DTO) As Entity.Entity
+        Public Overrides Function ToEntity(Of TDTO)(DTO As TDTO) As Core.Entity.Entity
             Dim Entity As New Entity.Entity
 
 
-            If GetType(DTO) Is GetType(DTOs.ILoginDTO) Then
-                Dim Obj As DTOs.ILoginDTO = DTOLink
+            If GetType(TDTO) Is GetType(DTOs.ILoginDTO) Then
+                Dim Obj As DTOs.ILoginDTO = DTO
                 With Entity
                     .Username = Obj.Username
                     .Password = Obj.Password
                 End With
-            ElseIf GetType(DTO) Is GetType(DTOs.IRegisterDTO) Then
-                Dim Obj As DTOs.IRegisterDTO = DTOLink
+            ElseIf GetType(TDTO) Is GetType(DTOs.IRegisterDTO) Then
+                Dim Obj As DTOs.IRegisterDTO = DTO
                 With Entity
                     .Username = Obj.Username
                     .Password = Obj.Username
                 End With
-            ElseIf GetType(DTO) Is GetType(DTOs.IChangeNameDTO) Then
-                Dim Obj As DTOs.IChangeNameDTO = DTOLink
+            ElseIf GetType(TDTO) Is GetType(DTOs.IChangeNameDTO) Then
+                Dim Obj As DTOs.IChangeNameDTO = DTO
                 With Entity
                     .Username = Obj.Username
                 End With
-            ElseIf GetType(DTO) Is GetType(DTOs.IChangePasswordDTO) Then
-                Dim Obj As DTOs.IChangePasswordDTO = DTOLink
+            ElseIf GetType(TDTO) Is GetType(DTOs.IChangePasswordDTO) Then
+                Dim Obj As DTOs.IChangePasswordDTO = DTO
                 With Entity
                     .Password = Obj.Password
                 End With
-            ElseIf GetType(DTO) Is GetType(DTOs.IChangeUsernameAndPasswordDTO) Then
-                Dim Obj As DTOs.IChangeUsernameAndPasswordDTO = DTOLink
+            ElseIf GetType(TDTO) Is GetType(DTOs.IChangeUsernameAndPasswordDTO) Then
+                Dim Obj As DTOs.IChangeUsernameAndPasswordDTO = DTO
                 With Entity
                     .Username = Obj.Username
                     .Password = Obj.Password
@@ -93,31 +93,32 @@ Namespace Services
             Return Entity
         End Function
 
-        Public Overrides Function ToEntity(Of DTO)(DTOLink As DTO, Entity As Entity.Entity) As Entity.Entity
-            If GetType(DTO) Is GetType(DTOs.ILoginDTO) Then
-                Dim Obj As DTOs.ILoginDTO = DTOLink
+        Public Overrides Function ToEntity(Of TDTO)(DTO As TDTO, Entity As Core.Entity.Entity) As Core.Entity.Entity
+
+            If GetType(TDTO) Is GetType(DTOs.ILoginDTO) Then
+                Dim Obj As DTOs.ILoginDTO = DTO
                 With Entity
                     .Username = Obj.Username
                     .Password = Obj.Password
                 End With
-            ElseIf GetType(DTO) Is GetType(DTOs.IRegisterDTO) Then
-                Dim Obj As DTOs.IRegisterDTO = DTOLink
+            ElseIf GetType(TDTO) Is GetType(DTOs.IRegisterDTO) Then
+                Dim Obj As DTOs.IRegisterDTO = DTO
                 With Entity
                     .Username = Obj.Username
                     .Password = Obj.Username
                 End With
-            ElseIf GetType(DTO) Is GetType(DTOs.IChangeNameDTO) Then
-                Dim Obj As DTOs.IChangeNameDTO = DTOLink
+            ElseIf GetType(TDTO) Is GetType(DTOs.IChangeNameDTO) Then
+                Dim Obj As DTOs.IChangeNameDTO = DTO
                 With Entity
                     .Username = Obj.Username
                 End With
-            ElseIf GetType(DTO) Is GetType(DTOs.IChangePasswordDTO) Then
-                Dim Obj As DTOs.IChangePasswordDTO = DTOLink
+            ElseIf GetType(TDTO) Is GetType(DTOs.IChangePasswordDTO) Then
+                Dim Obj As DTOs.IChangePasswordDTO = DTO
                 With Entity
                     .Password = Obj.Password
                 End With
-            ElseIf GetType(DTO) Is GetType(DTOs.IChangeUsernameAndPasswordDTO) Then
-                Dim Obj As DTOs.IChangeUsernameAndPasswordDTO = DTOLink
+            ElseIf GetType(TDTO) Is GetType(DTOs.IChangeUsernameAndPasswordDTO) Then
+                Dim Obj As DTOs.IChangeUsernameAndPasswordDTO = DTO
                 With Entity
                     .Username = Obj.Username
                     .Password = Obj.Password
@@ -127,3 +128,4 @@ Namespace Services
         End Function
     End Class
 End Namespace
+
