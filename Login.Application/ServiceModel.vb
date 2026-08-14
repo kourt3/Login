@@ -1,24 +1,28 @@
 ﻿Imports FoundationLibrary.Interfaces.ValMsg
+Imports FoundationLibrary.Repositories
+Imports FoundationLibrary.Services
 Imports FoundationLibrary.ValMsg
 Imports Login.Core
 Imports Login.Infastructure
-Namespace Services
-    Public Class LoginServiceOfficialEntity
 
-        Inherits FoundationLibrary.Services.ServiceOfficialEntity(Of Integer, Entity.Entity, Repository)
+Namespace Services
+    Public Class LoginServiceModel(Of TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of Int32))
+
+        Inherits FoundationLibrary.Services.ServiceOfficialModels(Of Integer, TModel, Core.Entity.Entity, Repository)
+
 
         Sub New()
             MyBase.New(New Repository)
         End Sub
 
+        Function Login(LoginDTO As DTOs.ILoginDTO) As FoundationLibrary.ValMsg.ValMsg(Of TModel)
 
-        Function Login(LoginDTO As DTOs.ILoginDTO) As FoundationLibrary.ValMsg.ValMsg(Of Entity.Entity)
 
-            Dim Result As New ValMsg(Of Entity.Entity)
+            Dim Result As New ValMsg(Of TModel)
             If Repository.Exist(LoginDTO) Then
                 Result.Success = True
                 Result.Msg = "Βρέθηκε ο Χρήστης."
-                Result.Model = Repository.Find(LoginDTO)
+                Result.Model = MemberizeClone(Repository.Find(LoginDTO))
                 Return Result
             End If
 
@@ -43,7 +47,7 @@ Namespace Services
             Return MyBase.Change(Ref, ChangeDTO)
         End Function
 
-        Public Overrides Function Register(Of DTO)(RegisterDTO As DTO) As IValMsg(Of Entity.Entity)
+        Public Overrides Function Register(Of DTO)(RegisterDTO As DTO) As IValMsg(Of TModel)
             Dim LinkRegisterDTO As DTOs.IRegisterDTO = RegisterDTO
             Dim Val As New ValMsg(Of Entity.Entity)
             If Repository.ExistByUsername(LinkRegisterDTO.Username) Then
@@ -55,6 +59,19 @@ Namespace Services
             End If
 
             Return MyBase.Register(RegisterDTO)
+        End Function
+
+
+
+        Public Overrides Function MemberizeClone(Entity As Entity.Entity) As TModel
+            Dim NewEntity As New Entity.Entity
+            With NewEntity
+                .PrimaryKey = Entity.PrimaryKey
+                .Username = Entity.Username
+                .Password = Entity.Password
+                .CreateAt = Entity.CreateAt
+            End With
+            Return DirectCast(CType(NewEntity, Object), TModel)
         End Function
 
         Public Overrides Function ToEntity(Of DTO)(DTOLink As DTO) As Entity.Entity
@@ -125,5 +142,6 @@ Namespace Services
             End If
             Return Entity
         End Function
+
     End Class
 End Namespace

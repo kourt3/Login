@@ -69,7 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs.vb" />
-    <Compile Include="LoginService.vb" />
+    <Compile Include="ServiceDiffModel.vb" />
+    <Compile Include="ServiceModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

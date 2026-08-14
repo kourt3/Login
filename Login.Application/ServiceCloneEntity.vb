@@ -5,7 +5,7 @@ Imports Login.Infastructure
 Imports Login.Core
 Namespace Services
     Public Class LoginServiceCloneEntity
-        Inherits ServiceCE(Of Integer, Entity.Entity, Repository)
+        Inherits ServiceCloneEntity(Of Integer, Entity.Entity, Repository)
 
         Sub New()
             MyBase.New(New Repository)
