@@ -6,6 +6,10 @@ Imports Login.Core
 Imports Login.Infastructure
 
 Namespace Services
+    ''' <summary>
+    ''' Εδω μπορει να επιλέξει καποιος απο τα γνήσια Models.
+    ''' </summary>
+    ''' <typeparam name="TModel"></typeparam>
     Public Class LoginServiceModel(Of TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of Int32))
 
         Inherits FoundationLibrary.Services.ServiceOfficialModels(Of Integer, TModel, Core.Entity.Entity, Repository)

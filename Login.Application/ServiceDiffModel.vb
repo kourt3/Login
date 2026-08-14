@@ -4,6 +4,10 @@ Imports Login.Application.DTOs
 Imports Login.Core
 
 Namespace Services
+    ''' <summary>
+    ''' Εδω μπορει καποιος να βάλει καποιο εξωτερικο Model που συνδεετε με τα κλειδια του project
+    ''' </summary>
+    ''' <typeparam name="TModel"></typeparam>
     Public Class LoginServiceDiffModel(Of TModel As FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of Int32))
         Inherits FoundationLibrary.Services.ServicesDiffModels(Of Integer, TModel, Login.Core.Entity.Entity, Login.Infastructure.Repository)
 
