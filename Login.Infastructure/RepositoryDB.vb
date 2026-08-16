@@ -1,10 +1,19 @@
 ﻿Imports Login.Core
+
+''' <summary>
+''' Repository connect to Access database
+''' <br/>
+''' <em>Initillize new DataRepository ->  Διμιουργει αυτοματα απο το συστημα την DataBase</em><br/>
+'''<em> initillize new DataRepository(Ekdosh As String, LinkDataBase As String, NameDatabase As String, Columns As String) -> Εκχωρέις σε ποια βαση θέλεις να κανει Connect</em>
+''' </summary>
 Public Class DatabaseRepository
     Inherits FoundationLibrary.Repositories.DatabaseRepository(Of Integer, Entity.Entity)
+    Implements IMyRepository
 
     Sub New()
         MyBase.New("Microsoft.ACE.OLEDB.16.0", "C:\Users\kourt\Documents\kourt.accdb", "Eisodos", "[ID],[Username],[Password],[CreateAt]")
     End Sub
+
     Sub New(Ekdosh As String, LinkDataBase As String, NameDatabase As String, Columns As String)
         MyBase.New(Ekdosh, LinkDataBase, NameDatabase, Columns)
     End Sub
@@ -24,7 +33,14 @@ Public Class DatabaseRepository
         Return Entity
     End Function
 
-    Public Function FindByUserNameAndPassword(UserName As String, Password As String) As Entity.Entity
+    Public Overrides Function Match(Of TCreteria)(Entity As Entity.Entity, Creteria As TCreteria) As Boolean
+        Dim Creterias As ICritiria = Creteria
+        If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
+        If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        Return True
+    End Function
+
+    Public Function FindByUserNameAndPassword(UserName As String, Password As String) As Entity.Entity Implements IMyRepository.FindByUserNameAndPassword
         Dim DT As New DataTable
 
         Database.TableDbOLe(Database.SelectDB("Eisodos"), DT)
@@ -34,7 +50,8 @@ Public Class DatabaseRepository
         Next
         Return Nothing
     End Function
-    Public Function ExistByUsernameAndPassword(UserName As String, Password As String) As Boolean
+
+    Public Function ExistByUsernameAndPassword(UserName As String, Password As String) As Boolean Implements IMyRepository.ExistByUsernameAndPassword
         Dim DT As New DataTable
 
         Database.TableDbOLe(Database.SelectDB("Eisodos"), DT)
@@ -44,7 +61,8 @@ Public Class DatabaseRepository
         Next
         Return False
     End Function
-    Public Function ExistByUsername(Username As String) As Boolean
+
+    Public Function ExistByUsername(Username As String) As Boolean Implements IMyRepository.ExistByUsername
         Dim DT As New DataTable
 
         Database.TableDbOLe(Database.SelectDB("Eisodos"), DT)
@@ -54,7 +72,8 @@ Public Class DatabaseRepository
         Next
         Return False
     End Function
-    Public Function ExistByPassword(Password As String) As Boolean
+
+    Public Function ExistByPassword(Password As String) As Boolean Implements IMyRepository.ExistByPassword
         Dim DT As New DataTable
 
         Database.TableDbOLe(Database.SelectDB("Eisodos"), DT)
@@ -63,12 +82,5 @@ Public Class DatabaseRepository
             If DT(i)(2) = Password Then Return True
         Next
         Return False
-    End Function
-
-    Public Overrides Function Match(Of TCreteria)(Entity As Entity.Entity, Creteria As TCreteria) As Boolean
-        Dim Creterias As ICritiria = Creteria
-        If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
-        If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
-        Return True
     End Function
 End Class

@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs.vb" />
-    <Compile Include="ServiceDiffModel.vb" />
     <Compile Include="ServiceModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -87,8 +86,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ServiceCloneEntity.vb" />
-    <Compile Include="ServiceOfficialEntity.vb" />
+    <Compile Include="ServiceEntity.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

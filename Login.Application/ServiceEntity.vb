@@ -1,11 +1,11 @@
 ﻿Imports FoundationLibrary.Interfaces.ValMsg
+Imports FoundationLibrary.Services
 Imports FoundationLibrary.ValMsg
-Imports Login.Core
 Imports Login.Infastructure
+Imports Login.Core
 Namespace Services
-    Public Class LoginServiceOfficialEntity
-
-        Inherits FoundationLibrary.Services.ServiceOfficialEntity(Of Integer, Entity.Entity, Repository)
+    Public Class LoginService
+        Inherits Service(Of Integer, Entity.Entity, Repository)
 
         Sub New()
             MyBase.New(New Repository)
@@ -18,7 +18,12 @@ Namespace Services
             If Repository.Exist(LoginDTO) Then
                 Result.Success = True
                 Result.Msg = "Βρέθηκε ο Χρήστης."
-                Result.Model = Repository.Find(LoginDTO)
+                If MyBase.AvailableClone = True Then
+                    Result.Model = MemberizeClone(Repository.Find(LoginDTO))
+                Else
+                    Result.Model = Repository.Find(LoginDTO)
+                End If
+
                 Return Result
             End If
 
@@ -56,6 +61,8 @@ Namespace Services
 
             Return MyBase.Register(RegisterDTO)
         End Function
+
+
 
         Public Overrides Function ToEntity(Of DTO)(DTOLink As DTO) As Entity.Entity
             Dim Entity As New Entity.Entity
@@ -125,5 +132,18 @@ Namespace Services
             End If
             Return Entity
         End Function
+
+        Public Overrides Function MemberizeClone(Enity As Entity.Entity) As Entity.Entity
+            Dim NewEntiry As New Entity.Entity
+            With NewEntiry
+                .PrimaryKey = Enity.PrimaryKey
+                .Username = Enity.Username
+                .Password = Enity.Password
+                .CreateAt = Enity.CreateAt
+            End With
+            Return NewEntiry
+        End Function
     End Class
 End Namespace
+
+

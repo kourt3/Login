@@ -14,6 +14,7 @@ Namespace Entity
         Public Property Password As String Implements Ables.IPassword.Password
         Public Property CreateAt As Date Implements Ables.CreateAt.CreateAt
     End Class
+
 End Namespace
 
 

@@ -11,6 +11,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 
         Assert.AreEqual(RegisterVal.Success, LoginVal.Success)
+        Console.WriteLine(LoginVal.Model.Username)
     End Sub
 
 
