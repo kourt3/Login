@@ -20,8 +20,8 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 
     <TestMethod()> Public Sub TestMethod1()
-        Dim ServiceForModel As New Login.Application.Services.LoginServiceModel(Of Model, Infastructure.Repository)(Function() New Model)
-        Dim DTO As Login.Application.DTOs.IRegisterDTO = New Login.Application.DTOs.DTOs
+        Dim ServiceForModel As New Login.Application.Services.Service(Of Core.Entity.Entity, Infastructure.Repository)
+        Dim DTO As Login.Application.DTOs.IRegisterUserNameDTO = New Login.Application.DTOs.DTOs
 
         DTO.Username = "kourt"
         DTO.Password = "kourt"
@@ -36,7 +36,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
         Dim Model As New Model
 
-        Model = ServiceForModel.MemberizeClone(newEntity)
+
 
         Console.WriteLine(Model.Username)
 

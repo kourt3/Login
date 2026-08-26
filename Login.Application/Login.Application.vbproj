@@ -69,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTOs.vb" />
-    <Compile Include="ServiceModel.vb" />
+    <Compile Include="Service.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -86,7 +86,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ServiceEntity.vb" />
+    <Compile Include="UseCases\DeleteRequest.vb" />
+    <Compile Include="UseCases\LoginRequest.vb" />
+    <Compile Include="UseCases\RegisterRequest.vb" />
+    <Compile Include="UseCases\RemoveAccRequest.vb" />
+    <Compile Include="UseCases\UpdateRequest.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

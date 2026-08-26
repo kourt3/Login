@@ -8,7 +8,7 @@
 ''' </summary>
 Public Class DatabaseRepository
     Inherits FoundationLibrary.Repositories.DatabaseRepository(Of Integer, Entity.Entity)
-    Implements IMyRepository
+
 
     Sub New()
         MyBase.New("Microsoft.ACE.OLEDB.16.0", "C:\Users\kourt\Documents\kourt.accdb", "Eisodos", "[ID],[Username],[Password],[CreateAt]")
@@ -34,53 +34,34 @@ Public Class DatabaseRepository
     End Function
 
     Public Overrides Function Match(Of TCreteria)(Entity As Entity.Entity, Creteria As TCreteria) As Boolean
-        Dim Creterias As ICritiria = Creteria
-        If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
-        If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        If GetType(TCreteria) = GetType(ICritByUsernameAndPassword) Then
+            Dim Creterias As ICritByUsernameAndPassword = Creteria
+            If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
+            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByEmailAndPassword) Then
+            Dim Creterias As ICritByEmailAndPassword = Creteria
+            If Creterias.Email IsNot Nothing AndAlso Creterias.Email <> Entity.Email Then Return False
+            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByPhoneAndPassword) Then
+            Dim Creterias As ICritByPhoneAndPassword = Creteria
+            If Creterias.Phone IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByUserName) Then
+            Dim Creterias As ICritByUserName = Creteria
+            If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByPassword) Then
+            Dim Creterias As ICritByPassword = Creteria
+            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByEmail) Then
+            Dim Creterias As ICritByEmail = Creteria
+            If Creterias.Email IsNot Nothing AndAlso Creterias.Email <> Entity.Email Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByPhone) Then
+            Dim Creterias As ICritByPhone = Creteria
+            If Creterias.Phone IsNot Nothing AndAlso Creterias.Phone <> Entity.Phone Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByCreateAt) Then
+            Dim Creterias As ICritByCreateAt = Creteria
+            If Creterias.CreateAt <> Entity.CreateAt Then Return False 'Creterias.CreateAt IsNot Nothing AndAlso
+        End If
         Return True
-    End Function
-
-    Public Function FindByUserNameAndPassword(UserName As String, Password As String) As Entity.Entity Implements IMyRepository.FindByUserNameAndPassword
-        Dim DT As New DataTable
-
-        Database.TableDbOLe(Database.SelectDB("Eisodos"), DT)
-
-        For i = 0 To DT.Rows.Count - 1
-            If DT(i)(1) = UserName And Password = DT(i)(2) Then Return ConvertEntity(DT(i))
-        Next
-        Return Nothing
-    End Function
-
-    Public Function ExistByUsernameAndPassword(UserName As String, Password As String) As Boolean Implements IMyRepository.ExistByUsernameAndPassword
-        Dim DT As New DataTable
-
-        Database.TableDbOLe(Database.SelectDB("Eisodos"), DT)
-
-        For i = 0 To DT.Rows.Count - 1
-            If DT(i)(1) = UserName And Password = DT(i)(2) Then Return True
-        Next
-        Return False
-    End Function
-
-    Public Function ExistByUsername(Username As String) As Boolean Implements IMyRepository.ExistByUsername
-        Dim DT As New DataTable
-
-        Database.TableDbOLe(Database.SelectDB("Eisodos"), DT)
-
-        For i = 0 To DT.Rows.Count - 1
-            If DT(i)(1) = Username Then Return True
-        Next
-        Return False
-    End Function
-
-    Public Function ExistByPassword(Password As String) As Boolean Implements IMyRepository.ExistByPassword
-        Dim DT As New DataTable
-
-        Database.TableDbOLe(Database.SelectDB("Eisodos"), DT)
-
-        For i = 0 To DT.Rows.Count - 1
-            If DT(i)(2) = Password Then Return True
-        Next
-        Return False
     End Function
 End Class

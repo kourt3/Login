@@ -6,41 +6,37 @@
 Public Class Repository
 
     Inherits FoundationLibrary.Repositories.Repository(Of Integer, Entity.Entity)
-    Implements IMyRepository
-
 
     Public Overrides Function Match(Of TCreteria)(Entity As Entity.Entity, Creteria As TCreteria) As Boolean
-        Dim Creterias As ICritiria = Creteria
-        If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
-        If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        If GetType(TCreteria) = GetType(ICritByUsernameAndPassword) Then
+            Dim Creterias As ICritByUsernameAndPassword = Creteria
+            If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
+            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByEmailAndPassword) Then
+            Dim Creterias As ICritByEmailAndPassword = Creteria
+            If Creterias.Email IsNot Nothing AndAlso Creterias.Email <> Entity.Email Then Return False
+            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByPhoneAndPassword) Then
+            Dim Creterias As ICritByPhoneAndPassword = Creteria
+            If Creterias.Phone IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByUserName) Then
+            Dim Creterias As ICritByUserName = Creteria
+            If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByPassword) Then
+            Dim Creterias As ICritByPassword = Creteria
+            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByEmail) Then
+            Dim Creterias As ICritByEmail = Creteria
+            If Creterias.Email IsNot Nothing AndAlso Creterias.Email <> Entity.Email Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByPhone) Then
+            Dim Creterias As ICritByPhone = Creteria
+            If Creterias.Phone IsNot Nothing AndAlso Creterias.Phone <> Entity.Phone Then Return False
+        ElseIf GetType(TCreteria) = GetType(ICritByCreateAt) Then
+            Dim Creterias As ICritByCreateAt = Creteria
+            If Creterias.CreateAt <> Entity.CreateAt Then Return False 'Creterias.CreateAt IsNot Nothing AndAlso
+        End If
         Return True
     End Function
 
-    Public Function FindByUserNameAndPassword(UserName As String, Password As String) As Entity.Entity Implements IMyRepository.FindByUserNameAndPassword
-        For i = 0 To Rep.Count - 1
-            If Rep(i).Username = UserName And Password = Rep(i).Password Then Return Rep(i)
-        Next
-        Return Nothing
-    End Function
-
-    Public Function ExistByUsernameAndPassword(UserName As String, Password As String) As Boolean Implements IMyRepository.ExistByUsernameAndPassword
-        For i = 0 To Rep.Count - 1
-            If Rep(i).Username = UserName And Password = Rep(i).Password Then Return True
-        Next
-        Return False
-    End Function
-
-    Public Function ExistByUsername(Username As String) As Boolean Implements IMyRepository.ExistByUsername
-        For i = 0 To Rep.Count - 1
-            If Rep(i).Username = Username Then Return True
-        Next
-        Return False
-    End Function
-
-    Public Function ExistByPassword(Password As String) As Boolean Implements IMyRepository.ExistByPassword
-        For i = 0 To Rep.Count - 1
-            If Rep(i).Password = Password Then Return True
-        Next
-        Return False
-    End Function
 End Class
