@@ -1,6 +1,8 @@
-﻿Imports Login.Core
+﻿Imports FoundationLibrary.Keys
+Imports Login.Core
 Imports Login.Core.Ables
 Namespace DTOs
+
     Public Interface ILoginUserNameDTO
         Inherits Ables.IUserName, Ables.IPassword
     End Interface
@@ -20,7 +22,18 @@ Namespace DTOs
     Public Interface IRegisterPhoneDTO
         Inherits Ables.IPhone, Ables.IPassword
     End Interface
-
+    Public Interface IRegisterUsernameAndPhoneDTO
+        Inherits Ables.IUserName, Ables.IPhone, Ables.IPassword
+    End Interface
+    Public Interface IRegisterEmailAndPhoneDTO
+        Inherits Ables.IEmail, Ables.IPhone, Ables.IPassword
+    End Interface
+    Public Interface IRegisterUsernameAndEmailDTO
+        Inherits Ables.IUserName, Ables.IEmail, Ables.IPassword
+    End Interface
+    Public Interface IRegisterDTO
+        Inherits Ables.IUserName, Ables.IPhone, Ables.IEmail, Ables.IPassword
+    End Interface
 
     Public Interface IChangeEmailDTO
         Inherits Ables.IEmail
@@ -63,7 +76,7 @@ Namespace DTOs
 
     Public Class DTOs
         Implements ILoginUserNameDTO, ILoginEmailDTO, ILoginPhoneDTO
-        Implements IRegisterUserNameDTO, IRegisterEmailDTO, IRegisterPhoneDTO
+        Implements IRegisterUserNameDTO, IRegisterEmailDTO, IRegisterPhoneDTO, IRegisterUsernameAndEmailDTO, IRegisterUsernameAndPhoneDTO, IRegisterEmailAndPhoneDTO
         Implements IChangeEmailDTO, IChangeUserNameDTO, IChangePasswordDTO, IChangePhoneDTO
         Implements IDeleteUsernameDTO, IDeleteEmailDTO, IDeletePhoneDTO
         Implements IRemoveAccountUsernameDTO, IRemoveAccountEmailDTO, IRemoveAccountPhoneDTO
@@ -72,6 +85,7 @@ Namespace DTOs
         Public Property Password As String Implements IPassword.Password
         Public Property Email As String Implements IEmail.Email
         Public Property Phone As String Implements IPhone.Phone
+
 
     End Class
 End Namespace

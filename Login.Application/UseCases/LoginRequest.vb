@@ -2,55 +2,40 @@
 Imports FoundationLibrary.Repositories
 Imports FoundationLibrary.Results
 
-Public Class LoginRequest(Of TModel, TRepostiry As IRepository(Of Int32, Core.Entity.Entity))
-    Private ReadOnly Service As Services.Service(Of TModel, TRepostiry)
-    Private ReadOnly Repository As TRepostiry
+Namespace Services.UserCase
+    Public Class LoginRequest(Of TRepostiry As IRepository(Of Int32, Core.Entity.Entity))
+        Private ReadOnly Repository As TRepostiry
 
-    Sub New(Service As Services.Service(Of TModel, TRepostiry))
-        Me.Service = Service
-        Me.Repository = Me.Service.Repository
-    End Sub
+        Sub New(Repository As TRepostiry)
+            Me.Repository = Repository
+        End Sub
 
-    Function UserNameAndPassword(LoginDTO As DTOs.ILoginUserNameDTO)
-        Dim Creteria As Infastructure.ICritByUsernameAndPassword = New Infastructure.Creterias
-        With Creteria
-            .Username = LoginDTO.Username
-            .Password = LoginDTO.Password
-        End With
+        Function Login(Of DTO)(LoginDTO As DTO) As Result
+            Dim RepResult As Result(Of Core.Entity.Entity) = Nothing
+            If GetType(DTO) Is GetType(DTOs.ILoginUserNameDTO) Then
+                Dim DTOLink As DTOs.ILoginUserNameDTO = LoginDTO
+                If Repository.Exist(DTOLink.Username).Success = False Then Return New Result(False, "Δεν Ήταν επυτιχης το Login λογο Username.")
+                If Repository.Read(DTOLink.Username).Model.Password <> DTOLink.Password Then Return New Result(False, "Προβλήμα με το autheration!")
+                Return New FoundationLibrary.Results.Result(True, "Επιτήχης έλενχος δεδομένον!")
+            End If
 
-        If Repository.Exist(Creteria).Success Then
-            Return New FoundationLibrary.Results.Result(Of TModel)(False, "Δεν Ήταν επυτιχης το Login λογο Username.")
-        End If
+            If GetType(DTO) Is GetType(DTOs.ILoginEmailDTO) Then
+                Dim DTOLink As DTOs.ILoginEmailDTO = LoginDTO
+                If Repository.Exist(DTOLink.Email).Success = False Then Return New Result(False, "Δεν Ήταν επυτιχης το Login λογο Email.")
+                If Repository.Read(DTOLink.Email).Model.Password <> DTOLink.Password Then Return New Result(False, "Προβλήμα με το autheration!")
+                Return New FoundationLibrary.Results.Result(True, "Επιτήχης έλενχος δεδομένον!")
+            End If
 
-        Return Service.Exist(Repository.Read(Creteria))
-    End Function
+            If GetType(DTO) Is GetType(DTOs.ILoginPhoneDTO) Then
+                Dim DTOLink As DTOs.ILoginPhoneDTO = LoginDTO
+                If Repository.Exist(DTOLink.Phone).Success = False Then Return New Result(False, "Δεν Ήταν επυτιχης το Login λογο Phone.")
+                If Repository.Read(DTOLink.Phone).Model.Password <> DTOLink.Password Then Return New Result(False, "Προβλήμα με το autheration!")
+                Return New FoundationLibrary.Results.Result(True, "Επιτήχης έλενχος δεδομένον!")
+            End If
 
-    Function EmailAndPassword(LoginDTO As DTOs.ILoginEmailDTO)
-        Dim Creteria As Infastructure.ICritByEmailAndPassword = New Infastructure.Creterias
-        With Creteria
-            .Email = LoginDTO.Email
-            .Password = LoginDTO.Password
-        End With
+            Return New FoundationLibrary.Results.Result(True, "Επιτήχης έλενχος δεδομένον!")
+        End Function
+    End Class
 
-        If Repository.Exist(Creteria).Success Then
+End Namespace
 
-            Return New Result(Of TModel)(False, "Δεν Ήταν επιτηχης η εγραφη λογο Email.")
-        End If
-
-        Return Service.Exist(Repository.Read(Creteria))
-    End Function
-
-    Function PhoneAndPassword(LoginDTO As DTOs.ILoginPhoneDTO)
-        Dim Creteria As Infastructure.ICritByPhoneAndPassword = New Infastructure.Creterias
-        With Creteria
-            .Phone = LoginDTO.Phone
-            .Password = LoginDTO.Password
-        End With
-
-        If Repository.Exist(Creteria).Success Then
-            Return New Result(Of TModel)(False, "Δεν Ήταν επιτηχης η εγραφη λογο Phone.")
-        End If
-
-        Return Service.Exist(Repository.Read(Creteria))
-    End Function
-End Class

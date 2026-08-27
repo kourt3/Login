@@ -34,34 +34,32 @@ Public Class DatabaseRepository
     End Function
 
     Public Overrides Function Match(Of TCreteria)(Entity As Entity.Entity, Creteria As TCreteria) As Boolean
-        If GetType(TCreteria) = GetType(ICritByUsernameAndPassword) Then
-            Dim Creterias As ICritByUsernameAndPassword = Creteria
-            If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
-            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
-        ElseIf GetType(TCreteria) = GetType(ICritByEmailAndPassword) Then
-            Dim Creterias As ICritByEmailAndPassword = Creteria
-            If Creterias.Email IsNot Nothing AndAlso Creterias.Email <> Entity.Email Then Return False
-            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
-        ElseIf GetType(TCreteria) = GetType(ICritByPhoneAndPassword) Then
-            Dim Creterias As ICritByPhoneAndPassword = Creteria
-            If Creterias.Phone IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
-            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
-        ElseIf GetType(TCreteria) = GetType(ICritByUserName) Then
-            Dim Creterias As ICritByUserName = Creteria
-            If Creterias.Username IsNot Nothing AndAlso Creterias.Username <> Entity.Username Then Return False
-        ElseIf GetType(TCreteria) = GetType(ICritByPassword) Then
-            Dim Creterias As ICritByPassword = Creteria
-            If Creterias.Password IsNot Nothing AndAlso Creterias.Password <> Entity.Password Then Return False
-        ElseIf GetType(TCreteria) = GetType(ICritByEmail) Then
-            Dim Creterias As ICritByEmail = Creteria
-            If Creterias.Email IsNot Nothing AndAlso Creterias.Email <> Entity.Email Then Return False
-        ElseIf GetType(TCreteria) = GetType(ICritByPhone) Then
-            Dim Creterias As ICritByPhone = Creteria
-            If Creterias.Phone IsNot Nothing AndAlso Creterias.Phone <> Entity.Phone Then Return False
-        ElseIf GetType(TCreteria) = GetType(ICritByCreateAt) Then
-            Dim Creterias As ICritByCreateAt = Creteria
-            If Creterias.CreateAt <> Entity.CreateAt Then Return False 'Creterias.CreateAt IsNot Nothing AndAlso
+        'UserName
+        If GetType(TCreteria).GetInterfaces.Contains(GetType(Core.Ables.IUserName)) Then
+            Dim Username As Core.Ables.IUserName = Creteria
+            If Username.Username <> Entity.Username Then Return False
         End If
+        'Email
+        If GetType(TCreteria).GetInterfaces.Contains(GetType(Core.Ables.IEmail)) Then
+            Dim Username As Core.Ables.IEmail = Creteria
+            If Username.Email <> Entity.Email Then Return False
+        End If
+        'Phone
+        If GetType(TCreteria).GetInterfaces.Contains(GetType(Core.Ables.IPhone)) Then
+            Dim Username As Core.Ables.IPhone = Creteria
+            If Username.Phone <> Entity.Phone Then Return False
+        End If
+        'Password
+        If GetType(TCreteria).GetInterfaces.Contains(GetType(Core.Ables.IPassword)) Then
+            Dim Username As Core.Ables.IPassword = Creteria
+            If Username.Password <> Entity.Password Then Return False
+        End If
+        'CreateAt
+        If GetType(TCreteria).GetInterfaces.Contains(GetType(Core.Ables.ICreateAt)) Then
+            Dim Username As Core.Ables.ICreateAt = Creteria
+            If Username.CreateAt <> Entity.CreateAt Then Return False
+        End If
+
         Return True
     End Function
 End Class
