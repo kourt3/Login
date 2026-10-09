@@ -4,12 +4,12 @@ Imports Login.Core.Ables
 Namespace Entity
     Public Class Entity
         Implements IHasPrimaryKey(Of Integer)
-        Implements Ables.IReference
         Implements Ables.IUserName
         Implements Ables.IPassword
         Implements Ables.ICreateAt
         Implements Ables.IPhone
         Implements Ables.IEmail
+        Implements IHasExtrernalID(Of Integer).IHasToExternalID
 
         Public Property PrimaryKey As Integer Implements IHasPrimaryKey(Of Integer).PrimaryKey
         Public Property Username As String Implements Ables.IUserName.Username
@@ -17,6 +17,7 @@ Namespace Entity
         Public Property CreateAt As Date Implements Ables.ICreateAt.CreateAt
         Public Property Phone As String Implements IPhone.Phone
         Public Property Email As String Implements IEmail.Email
+        Public Property ToExternalID As Integer Implements IHasExtrernalID(Of Integer).IHasToExternalID.ToExternalID
 
 
         Sub New()

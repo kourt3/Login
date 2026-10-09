@@ -10,6 +10,7 @@
             Dim Phone As Core.Ables.IPhone = Nothing
             Dim Email As Core.Ables.IEmail = Nothing
 
+
             If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IUserName)) Then Username = CType(DTOlink, Core.Ables.IUserName)
             If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IPhone)) Then Phone = CType(DTOlink, Core.Ables.IPhone)
             If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IEmail)) Then Email = CType(DTOlink, Core.Ables.IEmail)

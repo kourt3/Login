@@ -81,10 +81,11 @@ Namespace Services
             If ExternalModelMemberizeClone Is Nothing Then
                 Dim Model As TModel = ConstractCloneYourModel.Invoke
 
-                If GetType(TModel).GetInterfaces().Contains(GetType(Ables.IReference)) Then DirectCast(Model, Ables.IReference).PrimaryKey = Entity.PrimaryKey
+                If GetType(TModel).GetInterfaces().Contains(GetType(FoundationLibrary.Keys.IHasPrimaryKey(Of Integer))) Then DirectCast(Model, FoundationLibrary.Keys.IHasPrimaryKey(Of Integer)).PrimaryKey = Entity.PrimaryKey
                 If GetType(TModel).GetInterfaces().Contains(GetType(Ables.IUserName)) Then DirectCast(Model, Ables.IUserName).Username = Entity.Username
                 If GetType(TModel).GetInterfaces().Contains(GetType(Ables.IPassword)) Then DirectCast(Model, Ables.IPassword).Password = Entity.Password
                 If GetType(TModel).GetInterfaces().Contains(GetType(Ables.ICreateAt)) Then DirectCast(Model, Ables.ICreateAt).CreateAt = Entity.CreateAt
+                DirectCast(Model, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID).ToExternalID = Entity.ToExternalID
 
                 Return Model
             Else
@@ -104,6 +105,8 @@ Namespace Services
                 If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IPassword)) Then .Password = CType(DTOLink, Core.Ables.IPassword).Password
                 If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IEmail)) Then .Email = CType(DTOLink, Core.Ables.IEmail).Email
                 If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IPhone)) Then .Phone = CType(DTOLink, Core.Ables.IPhone).Phone
+                If GetType(DTO).GetInterfaces().Contains(GetType(FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID)) Then .ToExternalID = CType(DTOLink, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID).ToExternalID
+
             End With
 
             Return Entity
@@ -117,10 +120,10 @@ Namespace Services
 
             Dim Valid As New List(Of FoundationLibrary.Errors.IErrors)
 
-            If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IUserName)) Then Valid.AddRange(ValidUserName.Check(CType(DTOLink, Core.Ables.IUserName).Username))
-            If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IPassword)) Then Valid.AddRange(ValidUserName.Check(CType(DTOLink, Core.Ables.IPassword).Password))
-            If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IEmail)) Then Valid.AddRange(ValidUserName.Check(CType(DTOLink, Core.Ables.IEmail).Email))
-            If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IPhone)) Then Valid.AddRange(ValidUserName.Check(CType(DTOLink, Core.Ables.IPhone).Phone))
+            If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IUserName)) Then Valid.AddRange(ValidUserName.Check(CType(DTOLink, Core.Ables.IUserName).Username).Err)
+            If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IPassword)) Then Valid.AddRange(ValidPassword.Check(CType(DTOLink, Core.Ables.IPassword).Password).Err)
+            If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IEmail)) Then Valid.AddRange(ValidEmail.Check(CType(DTOLink, Core.Ables.IEmail).Email).Err)
+            If GetType(DTO).GetInterfaces().Contains(GetType(Core.Ables.IPhone)) Then Valid.AddRange(ValidPhone.Check(CType(DTOLink, Core.Ables.IPhone).Phone).Err)
 
             If Valid.Count = 0 Then
                 Return New ErrResult(Of List(Of FoundationLibrary.Errors.IErrors))(True, "Επιτηχης έλενχος")

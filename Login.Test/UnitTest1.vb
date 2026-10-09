@@ -1,46 +1,48 @@
 ﻿Imports System.Text
-Imports FoundationLibrary.Interfaces.Keys
+Imports FoundationLibrary.Keys
 Imports Login.Core.Ables
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class UnitTest1
-    Public Class Model
-        Implements FoundationLibrary.Interfaces.Keys.IHasPrimaryKey(Of Integer)
-        Implements Core.Ables.IReference
-        Implements Core.Ables.IUserName
 
-        Implements Core.Ables.CreateAt
-
-        Public Property PrimaryKey As Integer Implements IHasPrimaryKey(Of Integer).PrimaryKey
-        Public Property Username As String Implements IUserName.Username
-        Public Property CreateAt As Date Implements CreateAt.CreateAt
-
-    End Class
-
-
-
-    <TestMethod()> Public Sub TestMethod1()
-        Dim ServiceForModel As New Login.Application.Services.Service(Of Core.Entity.Entity, Infastructure.Repository)
+    Dim ServiceForModel As New Login.Application.Services.Service(Of Core.Entity.Entity, Infastructure.Repository)
+    <TestMethod()> Public Sub RegisterMethod1()
         Dim DTO As Login.Application.DTOs.IRegisterUserNameDTO = New Login.Application.DTOs.DTOs
 
         DTO.Username = "kourt"
         DTO.Password = "kourt"
+        DTO.CreateAt = Now
+        DTO.ToExternalID = 15
 
-        Dim newEntity As New Core.Entity.Entity
-        With newEntity
-            .PrimaryKey = 1
-            .Username = "kourt"
-            .Password = "kourt"
-            .CreateAt = "23/06/1995"
-        End With
+        ServiceForModel.Register(DTO)
+        Console.WriteLine("------------ Register ------------")
+        Console.WriteLine(RepositoryShow(ServiceForModel.Repository.ReadAT(0).Model))
+        Console.WriteLine("----------------------------------")
+        UpdateMethod2()
+    End Sub
 
-        Dim Model As New Model
+    Public Sub UpdateMethod2()
+        Dim DTO As Login.Application.DTOs.IChangeUserNameDTO = New Login.Application.DTOs.DTOs
+        DTO.Username = "Paok"
 
+        Dim Entity As Login.Core.Entity.Entity = ServiceForModel.Repository.ReadAT(0).Model
 
-
-        Console.WriteLine(Model.Username)
-
+        ServiceForModel.Change(Of Login.Application.DTOs.IChangeUserNameDTO)(Entity, DTO)
+        Console.WriteLine("------------- Update -------------")
+        Console.WriteLine(RepositoryShow(ServiceForModel.Repository.ReadAT(0).Model))
+        Console.WriteLine("----------------------------------")
 
     End Sub
+
+    Function RepositoryShow(Entity As Core.Entity.Entity) As String
+
+        Return "ID: " & Entity.PrimaryKey & vbNewLine &
+            "Username: " & Entity.Username & vbNewLine &
+            "Password: " & Entity.Password & vbNewLine &
+            "Phone: " & Entity.Phone & vbNewLine &
+            "Email: " & Entity.Email & vbNewLine &
+            "CreateAt: " & Entity.CreateAt.Date & vbNewLine &
+            "ExternalID: " & Entity.ToExternalID
+    End Function
 
 End Class

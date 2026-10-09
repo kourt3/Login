@@ -120,17 +120,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Login.Application\Login.Application.vbproj">
-      <Project>{ee56ae95-e677-40d3-bdd1-dc87500c248a}</Project>
-      <Name>Login.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Login.Core\Login.Core.vbproj">
-      <Project>{1f4cfb14-6422-41dd-adbe-d2a5fb16cf56}</Project>
-      <Name>Login.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Login.Infastructure\Login.Infastructure.vbproj">
-      <Project>{6cfc44a6-bb4e-499a-aa54-aed18eef26c1}</Project>
-      <Name>Login.Infastructure</Name>
+    <ProjectReference Include="..\Login\Login.vbproj">
+      <Project>{05fd2add-907a-4492-bf3a-d78daece742a}</Project>
+      <Name>Login</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

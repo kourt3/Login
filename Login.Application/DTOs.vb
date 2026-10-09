@@ -4,35 +4,35 @@ Imports Login.Core.Ables
 Namespace DTOs
 
     Public Interface ILoginUserNameDTO
-        Inherits Ables.IUserName, Ables.IPassword
+        Inherits Ables.IUserName, Ables.IPassword, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
     Public Interface ILoginEmailDTO
-        Inherits Ables.IEmail, Ables.IPassword
+        Inherits Ables.IEmail, Ables.IPassword, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
     Public Interface ILoginPhoneDTO
-        Inherits Ables.IPhone, Ables.IPassword
+        Inherits Ables.IPhone, Ables.IPassword, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
 
     Public Interface IRegisterUserNameDTO
-        Inherits Ables.IUserName, Ables.IPassword
+        Inherits Ables.IUserName, Ables.IPassword, Ables.ICreateAt, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
     Public Interface IRegisterEmailDTO
-        Inherits Ables.IEmail, Ables.IPassword
+        Inherits Ables.IEmail, Ables.IPassword, Ables.ICreateAt, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
     Public Interface IRegisterPhoneDTO
-        Inherits Ables.IPhone, Ables.IPassword
+        Inherits Ables.IPhone, Ables.IPassword, Ables.ICreateAt, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
     Public Interface IRegisterUsernameAndPhoneDTO
-        Inherits Ables.IUserName, Ables.IPhone, Ables.IPassword
+        Inherits Ables.IUserName, Ables.IPhone, Ables.IPassword, Ables.ICreateAt, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
     Public Interface IRegisterEmailAndPhoneDTO
-        Inherits Ables.IEmail, Ables.IPhone, Ables.IPassword
+        Inherits Ables.IEmail, Ables.IPhone, Ables.IPassword, Ables.ICreateAt, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
     Public Interface IRegisterUsernameAndEmailDTO
-        Inherits Ables.IUserName, Ables.IEmail, Ables.IPassword
+        Inherits Ables.IUserName, Ables.IEmail, Ables.IPassword, Ables.ICreateAt, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
     Public Interface IRegisterDTO
-        Inherits Ables.IUserName, Ables.IPhone, Ables.IEmail, Ables.IPassword
+        Inherits Ables.IUserName, Ables.IPhone, Ables.IEmail, Ables.IPassword, Ables.ICreateAt, FoundationLibrary.Keys.IHasExtrernalID(Of Integer).IHasToExternalID
     End Interface
 
     Public Interface IChangeEmailDTO
@@ -81,11 +81,13 @@ Namespace DTOs
         Implements IDeleteUsernameDTO, IDeleteEmailDTO, IDeletePhoneDTO
         Implements IRemoveAccountUsernameDTO, IRemoveAccountEmailDTO, IRemoveAccountPhoneDTO
 
+
         Public Property Username As String Implements IUserName.Username
         Public Property Password As String Implements IPassword.Password
         Public Property Email As String Implements IEmail.Email
         Public Property Phone As String Implements IPhone.Phone
-
+        Public Property CreateAt As Date Implements ICreateAt.CreateAt
+        Public Property ToExternalID As Integer Implements IHasExtrernalID(Of Integer).IHasToExternalID.ToExternalID
 
     End Class
 End Namespace

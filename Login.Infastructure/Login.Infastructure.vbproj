@@ -109,11 +109,5 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Login.Core\Login.Core.vbproj">
-      <Project>{1f4cfb14-6422-41dd-adbe-d2a5fb16cf56}</Project>
-      <Name>Login.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

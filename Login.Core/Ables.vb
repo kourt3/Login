@@ -15,9 +15,4 @@ Namespace Ables
     Public Interface IPhone
         Property Phone As String
     End Interface
-
-
-    Public Interface IReference
-        Inherits IHasPrimaryKey(Of Integer)
-    End Interface
 End Namespace
